@@ -1,0 +1,6 @@
+src/id_rsa
+src/id_rsa.pub
+src/.terraform
+src/.terraform.lock.hcl
+src/.terraformrc
+src/personal.auto.tfvars
