@@ -3,6 +3,7 @@ output "vpc_network_id" {
 }
 
 output "vpc_network_subnets_id" {
+#    value = values(yandex_vpc_subnet.develop.id[*])
     value = yandex_vpc_subnet.develop.id
     depends_on = [ yandex_vpc_network.develop ]
 }

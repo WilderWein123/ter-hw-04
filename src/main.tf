@@ -25,7 +25,7 @@ module "marketing-vm" {
   env_name       = var.each_vm.marketing.name
   network_id     = module.vpc.vpc_network_id
   subnet_zones   = [var.default_zone]
-  subnet_ids     = module.vpc.vpc_network_subnets_id
+  subnet_ids     = module.vpc.vpc_network_subnets_id[*]
   instance_name  = var.each_vm.marketing.name
   instance_count = var.each_vm.marketing.count
   image_family   = var.each_vm.marketing.image
@@ -46,7 +46,7 @@ module "analytics-vm" {
   env_name       = var.each_vm.analytics.name
   network_id     = module.vpc.vpc_network_id
   subnet_zones   = [var.default_zone]
-  subnet_ids     = module.vpc.vpc_network_subnets_id
+  subnet_ids     = module.vpc.vpc_network_subnets_id[*]
   instance_name  = var.each_vm.analytics.name
   instance_count = var.each_vm.analytics.count
   image_family   = var.each_vm.analytics.image
