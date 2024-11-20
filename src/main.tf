@@ -1,3 +1,4 @@
+/*
 #создаем облачную сеть
 resource "yandex_vpc_network" "develop" {
   name = "develop"
@@ -17,13 +18,14 @@ resource "yandex_vpc_subnet" "develop_b" {
   network_id     = yandex_vpc_network.develop.id
   v4_cidr_blocks = var.each_subnet.subnet-b.cidr
 }
+*/
 
 module "marketing-vm" {
   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
   env_name       = var.each_vm.marketing.name
-  network_id     = yandex_vpc_network.develop.id
-  subnet_zones   = var.each_vm.marketing.subnet_zones
-  subnet_ids     = [yandex_vpc_subnet.develop_a.id,yandex_vpc_subnet.develop_b.id]
+  network_id     = module.vpc.vpc_network_id
+  subnet_zones   = [var.default_zone]
+  subnet_ids     = module.vpc.vpc_network_subnets_id
   instance_name  = var.each_vm.marketing.name
   instance_count = var.each_vm.marketing.count
   image_family   = var.each_vm.marketing.image
@@ -42,9 +44,9 @@ module "marketing-vm" {
 module "analytics-vm" {
   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
   env_name       = var.each_vm.analytics.name
-  network_id     = yandex_vpc_network.develop.id
-  subnet_zones   = var.each_vm.analytics.subnet_zones
-  subnet_ids     = [yandex_vpc_subnet.develop_a.id]
+  network_id     = module.vpc.vpc_network_id
+  subnet_zones   = [var.default_zone]
+  subnet_ids     = module.vpc.vpc_network_subnets_id
   instance_name  = var.each_vm.analytics.name
   instance_count = var.each_vm.analytics.count
   image_family   = var.each_vm.analytics.image
@@ -60,3 +62,9 @@ module "analytics-vm" {
   }
 }
 
+module "vpc" {
+  source             = "./vpc"
+  vpc_name           = var.vpc_name
+  default_zone       = var.default_zone
+  default_cidr       = var.default_cidr
+}
