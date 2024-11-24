@@ -77,6 +77,7 @@ variable "each_vm" {
     }
 }
 
+/*
 variable "each_subnet" {
   type = map(object({
     name = string
@@ -95,4 +96,10 @@ variable "each_subnet" {
       cidr = ["10.0.2.0/24"]
     }
   }
+}
+*/
+
+variable "tag" {
+  type = string
+  default = "0.0.1"
 }
