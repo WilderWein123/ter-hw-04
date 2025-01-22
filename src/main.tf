@@ -22,6 +22,7 @@ resource "yandex_vpc_subnet" "develop_b" {
 
 module "marketing-vm" {
   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
+  tag = var.tag
   env_name       = var.each_vm.marketing.name
   network_id     = module.vpc.vpc_network_id
   subnet_zones   = [var.default_zone]
@@ -43,6 +44,7 @@ module "marketing-vm" {
 
 module "analytics-vm" {
   source         = "git::https://github.com/udjin10/yandex_compute_instance.git?ref=main"
+  var = var.tag
   env_name       = var.each_vm.analytics.name
   network_id     = module.vpc.vpc_network_id
   subnet_zones   = [var.default_zone]
@@ -64,6 +66,7 @@ module "analytics-vm" {
 
 module "vpc" {
   source             = "./vpc"
+  var = var.tag
   vpc_name           = var.vpc_name
   default_zone       = var.default_zone
   default_cidr       = var.default_cidr
